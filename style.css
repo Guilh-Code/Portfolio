@@ -1,0 +1,409 @@
+/* Variáveis de Cores */
+:root {
+    --primary-blue: #2C3E50; /* Azul Marinho (cabeçalhos, destaque) */
+    --secondary-blue: #3498DB; /* Azul vibrante (links, botões) */
+    --light-gray: #ECF0F1; /* Cinza bem claro (background de seções) */
+    --white: #FFFFFF;
+    --dark-text: #34495E; /* Um cinza escuro para textos */
+    --accent-yellow: #F39C12; /* Um amarelo para destaques/botões secundários */
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--dark-text);
+    background-color: var(--white);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Tipografia */
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 3em;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h3 {
+    font-size: 1.8em;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+a {
+    color: var(--secondary-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-blue);
+}
+
+/* Botões */
+.btn-primary, .btn-secondary, .btn-tertiary {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--secondary-blue);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-blue);
+}
+
+.btn-secondary {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    font-size: 0.9em;
+    padding: 8px 15px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-blue);
+}
+
+.btn-tertiary {
+    background-color: var(--light-gray);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+    font-size: 0.8em;
+    padding: 5px 10px;
+}
+
+.btn-tertiary:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+/* Seções */
+.section-padding {
+    padding: 80px 0;
+}
+
+.bg-light {
+    background-color: var(--light-gray);
+}
+
+/* Hero Section (Topo da Página) */
+.hero {
+    background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.6)), url('https://via.placeholder.com/1920x400/2C3E50/FFFFFF?text=Background+Hero') no-repeat center center/cover;
+    color: var(--white);
+    padding: 100px 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.hero h1 {
+    color: var(--white);
+    font-size: 4em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--primary-blue);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.navbar ul {
+    list-style: none;
+    text-align: center;
+}
+
+.navbar ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: var(--white);
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    padding: 5px 0;
+    position: relative;
+}
+
+.navbar ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--secondary-blue);
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease-in-out;
+}
+
+.navbar ul li a:hover::after,
+.navbar ul li a.active::after {
+    width: 100%;
+}
+
+
+/* Seção Sobre Mim */
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas pequenas */
+}
+
+.about-text {
+    flex: 2; /* Ocupa mais espaço */
+    min-width: 300px; /* Garante um tamanho mínimo em telas pequenas */
+    text-align: justify;
+}
+
+.about-image {
+    flex: 1; /* Ocupa menos espaço */
+    text-align: center;
+    min-width: 200px; /* Garante um tamanho mínimo */
+}
+
+.about-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%; /* Imagem redonda */
+    border: 5px solid var(--secondary-blue);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Seção Projetos */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Colunas responsivas */
+    gap: 30px;
+}
+
+.project-card {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Sombra suave */
+    text-align: center;
+    transition: transform 0.3s ease; /* Efeito de hover */
+}
+
+.project-card:hover {
+    transform: translateY(-5px); /* Levanta um pouco no hover */
+}
+
+/* Seção Certificações (Preparação para Carrossel) */
+.certifications-carousel-container {
+    position: relative;
+    overflow: hidden; /* Esconde os cards que estão fora da vista */
+    padding: 20px 0; /* Espaçamento interno para os botões */
+}
+
+.certifications-carousel {
+    display: flex; /* Coloca os cards lado a lado */
+    transition: transform 0.5s ease-in-out; /* Transição para o carrossel */
+    justify-content: flex-start; /* Alinha ao início */
+    gap: 20px; /* Espaçamento entre os cards */
+    padding-bottom: 20px; /* Para sombra dos cards, se houver */
+}
+
+.certification-card {
+    flex: 0 0 300px; /* Não cresce, não diminui, largura base de 300px */
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    border: 1px solid var(--light-gray);
+    transition: transform 0.3s ease;
+}
+
+.certification-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Botões do Carrossel */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(44, 62, 80, 0.7); /* Azul marinho semi-transparente */
+    color: var(--white);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 900;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-button:hover {
+    background-color: var(--secondary-blue);
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+
+/* Seção Eventos */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.event-card {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* Seção Contato */
+.contact-info {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+.contact-info i {
+    margin-right: 10px;
+    color: var(--secondary-blue);
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 50px;
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 3em;
+    }
+
+    .hero p {
+        font-size: 1.2em;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    .navbar ul li {
+        margin: 0 10px;
+    }
+
+    .navbar ul li a {
+        font-size: 0.9em;
+    }
+
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-image {
+        margin-bottom: 30px;
+    }
+
+    .certification-card {
+        flex: 0 0 80%; /* Ocupa mais espaço em telas menores para ficar mais legível */
+    }
+
+    .carousel-button {
+        padding: 8px 12px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 300px;
+        padding: 50px 0;
+    }
+    .hero h1 {
+        font-size: 2.5em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+    .navbar ul li {
+        display: block; /* Cada item da nav em uma nova linha */
+        margin: 10px 0;
+    }
+    .section-padding {
+        padding: 50px 0;
+    }
+    .btn-primary, .btn-secondary, .btn-tertiary {
+        padding: 10px 20px;
+        font-size: 0.8em;
+    }
+}
