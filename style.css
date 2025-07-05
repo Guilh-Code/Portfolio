@@ -4,12 +4,16 @@
     --secondary-blue: #3498DB;
     --light-gray: #ECF0F1;
     --white: #FFFFFF;
-    --dark-text: #34495E;
+    --dark-text: #34495E; /* Sua cor de texto principal */
     --accent-yellow: #F39C12;
+
+    /* Definições para o contexto da navbar/menu móvel */
+    --header-bg-color: var(--primary-blue); /* Fundo do menu mobile quando aberto */
+    --text-color: var(--dark-text); /* Cor de texto geral (para corpo do site) */
+    --border-color: rgba(255, 255, 255, 0.2); /* Cor de borda para o menu mobile, agora mais suave */
 }
 
 /* Reset Básico */
-
 * {
     margin: 0;
     padding: 0;
@@ -154,13 +158,12 @@ a:hover {
 
 /* Estilos para o Typing Effect */
 .typing-container {
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     align-items: center;
-    min-height: 40px; 
+    min-height: 40px;
     height: 40px;
-
-    font-size: 1.8em; 
+    font-size: 1.8em;
     font-weight: 700;
     color: var(--white);
     font-family: 'JetBrains Mono', monospace;
@@ -185,14 +188,6 @@ a:hover {
     100% { opacity: 0; }
 }
 
-body.dark-mode .typing-container {
-    color: var(--text-color); 
-}
-
-body.dark-mode .cursor {
-    background-color: var(--text-color); 
-}
-
 /* Navbar */
 .navbar {
     background-color: var(--primary-blue);
@@ -203,25 +198,54 @@ body.dark-mode .cursor {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.navbar ul {
-    list-style: none;
-    text-align: center;
+/* Estilos para o contêiner interno da navbar em telas maiores */
+.navbar .container {
+    display: flex;
+    justify-content: center; /* Centraliza os links no desktop */
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-.navbar ul li {
-    display: inline-block;
+/* Estilo para o título/logo (removido do HTML da navbar, então estas regras não serão aplicadas) */
+.site-title {
+    display: none; /* Garante que não apareça se, por algum motivo, ainda estiver no HTML */
+}
+.site-title a {
+    display: none; /* Garante que não apareça */
+}
+
+
+/* Esconder o menu hambúrguer por padrão em telas maiores */
+.hamburger-menu {
+    display: none; /* Continua escondido no desktop */
+}
+
+/* Estilos para a lista de links (agora com a classe .nav-links) */
+.navbar .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Links lado a lado no desktop */
+    /* margin-left: auto; REMOVIDO. Agora com justify-content: center, não precisa */
+}
+
+.navbar .nav-links li {
     margin: 0 15px;
 }
 
-.navbar ul li a {
+.navbar .nav-links li a {
     color: var(--white);
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
     padding: 5px 0;
     position: relative;
+    text-decoration: none;
 }
 
-.navbar ul li a::after {
+.navbar .nav-links li a::after {
     content: '';
     position: absolute;
     width: 0;
@@ -232,9 +256,144 @@ body.dark-mode .cursor {
     transition: width 0.3s ease-in-out;
 }
 
-.navbar ul li a:hover::after,
-.navbar ul li a.active::after {
+.navbar .nav-links li a:hover::after,
+.navbar .nav-links li a.active::after {
     width: 100%;
+}
+
+
+/* --- MEDIA QUERY PARA TELAS PEQUENAS (Mobile) --- */
+@media (max-width: 768px) {
+
+    .navbar .container {
+        flex-wrap: nowrap; /* Não quebra linha */
+        justify-content: flex-end; /* Empurra o hambúrguer para a direita */
+        padding: 0 15px;
+    }
+
+    .site-title { /* Garante que o título continue escondido no mobile */
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: flex; /* <--- IMPORTANTE: Mostra o ícone do hambúrguer no mobile */
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 25px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1001; /* Fica acima do menu */
+    }
+
+    /* Esconder os links de navegação por padrão no mobile */
+    .navbar .nav-links {
+        display: none; /* Esconde a lista de links por padrão */
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--primary-blue); /* Fundo do menu mobile com a cor principal */
+        position: absolute;
+        top: 60px; /* Altura da sua navbar, se 15px padding top/bottom + ~30px content = ~60px */
+        left: 0;
+        z-index: 999;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        padding: 10px 0;
+        transition: transform 0.3s ease-out;
+        transform: translateY(-100%); /* Inicialmente fora da tela */
+    }
+
+    /* Mostrar o menu quando a classe 'active' for adicionada pelo JS */
+    .navbar .nav-links.active {
+        display: flex; /* Mostra o menu */
+        transform: translateY(0); /* Desliza para dentro da tela */
+    }
+
+    .navbar .nav-links li {
+        margin: 0; /* Remover margens laterais */
+        text-align: center;
+    }
+
+    .navbar .nav-links li a {
+        display: block;
+        padding: 15px 20px;
+        color: var(--white); /* Cor do link no menu (branco sobre azul) */
+        border-bottom: 1px solid var(--border-color); /* Borda entre os links */
+    }
+
+    .navbar .nav-links li:last-child a {
+        border-bottom: none;
+    }
+
+    /* Estilos para o ícone do hambúrguer */
+    .hamburger-menu .bar {
+        width: 100%;
+        height: 3px;
+        background-color: var(--white); /* Cor das barras do hambúrguer sempre branca na navbar azul */
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Animação do ícone do hambúrguer para um "X" */
+    .hamburger-menu.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-menu.active .bar:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+    }
+    .hamburger-menu.active .bar:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
+    }
+}
+
+/* Responsividade Geral (revisado para evitar conflitos com a navbar) */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 3em;
+    }
+    .hero p {
+        font-size: 1.2em;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    /* Removidas regras duplicadas ou conflitantes da navbar daqui */
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-image {
+        margin-bottom: 30px;
+    }
+    .certification-card {
+        flex: 0 0 80%;
+    }
+    .carousel-button {
+        padding: 8px 12px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 300px;
+        padding: 50px 0;
+    }
+    .hero h1 {
+        font-size: 2.5em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+    /* Removidas regras duplicadas ou conflitantes da navbar daqui */
+    .section-padding {
+        padding: 50px 0;
+    }
+    .btn-primary, .btn-secondary, .btn-tertiary {
+        padding: 10px 20px;
+        font-size: 0.8em;
+    }
 }
 
 /* Seção Sobre Mim */
@@ -719,62 +878,7 @@ footer {
     }
 }
 
-/* Responsividade Geral */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 3em;
-    }
-    .hero p {
-        font-size: 1.2em;
-    }
-    h2 {
-        font-size: 2em;
-    }
-    .navbar ul li {
-        margin: 0 10px;
-    }
-    .navbar ul li a {
-        font-size: 0.9em;
-    }
-    .about-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    .about-image {
-        margin-bottom: 30px;
-    }
-    .certification-card {
-        flex: 0 0 80%;
-    }
-    .carousel-button {
-        padding: 8px 12px;
-        font-size: 1.2em;
-    }
-}
 
-@media (max-width: 480px) {
-    .hero {
-        min-height: 300px;
-        padding: 50px 0;
-    }
-    .hero h1 {
-        font-size: 2.5em;
-    }
-    .hero p {
-        font-size: 1em;
-    }
-    .navbar ul li {
-        display: block;
-        margin: 10px 0;
-    }
-    .section-padding {
-        padding: 50px 0;
-    }
-    .btn-primary, .btn-secondary, .btn-tertiary {
-        padding: 10px 20px;
-        font-size: 0.8em;
-    }
-}
 
 /* Personalizando a Barra de Rolagem */
 ::-webkit-scrollbar {

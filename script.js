@@ -13,8 +13,27 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 
 
-  // Lógica para o Efeito de Digitação (Typing Effect)
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Lógica para o Menu Hambúrguer ---
+    const hamburger = document.querySelector('.hamburger-menu');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active'); // Alterna a visibilidade do menu
+            hamburger.classList.toggle('active'); // Anima o ícone do hambúrguer para um X
+        });
+
+        // Fechar o menu quando um link é clicado (útil no mobile)
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+    }
+
+    // --- Lógica para o Efeito de Digitação (Typing Effect) ---
     const typingTextElement = document.getElementById('typing-text');
     const phrases = [
         "Desenvolvedor Back-end em Formação",
@@ -31,6 +50,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const pauseBeforeType = 500; // Pausa antes de digitar a próxima frase (ms)
 
     function typeEffect() {
+        // Verifica se o elemento existe antes de tentar manipulá-lo
+        if (!typingTextElement) {
+            return;
+        }
+
         const currentPhrase = phrases[phraseIndex];
 
         if (isDeleting) {
