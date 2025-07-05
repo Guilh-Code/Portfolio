@@ -9,10 +9,6 @@
 }
 
 /* Reset Básico */
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px;
-}
 
 * {
     margin: 0;
