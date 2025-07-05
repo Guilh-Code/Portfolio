@@ -53,11 +53,11 @@ const cardWidth = document.querySelector('.certification-card').offsetWidth;
 const gap = 20; // O gap que definimos no CSS para .certifications-carousel
 const scrollPerClick = cardWidth + gap;
 
-// NOVO CÓDIGO: Obtém todos os cards do carrossel
+// Obtém todos os cards do carrossel
 const allCards = document.querySelectorAll('.certifications-carousel .certification-card');
 const totalCards = allCards.length;
 
-// NOVO CÓDIGO: Evento para o botão "Próximo"
+// Evento para o botão "Próximo"
 nextButton.addEventListener('click', () => {
     // Calcula a posição máxima de rolagem antes do último item visível
     // Considera que um número de cards pode estar visível por vez, dependendo da largura do contêiner
@@ -75,7 +75,7 @@ nextButton.addEventListener('click', () => {
     carousel.style.transform = `translateX(-${scrollAmount}px)`;
 });
 
-// NOVO CÓDIGO: Evento para o botão "Anterior"
+// Evento para o botão "Anterior"
 prevButton.addEventListener('click', () => {
     if (scrollAmount > 0) {
         scrollAmount -= scrollPerClick;
