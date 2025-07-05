@@ -12,6 +12,60 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
   });
 
+
+  // Lógica para o Efeito de Digitação (Typing Effect)
+document.addEventListener('DOMContentLoaded', function() {
+    const typingTextElement = document.getElementById('typing-text');
+    const phrases = [
+        "Desenvolvedor Back-end em Formação",
+        "Estudante focado em Python & Dados",
+        "Bem-vindo ao meu Portfólio!"
+    ]; // Suas frases para animar
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 100; // Velocidade de digitação (ms por caractere)
+    const deletingSpeed = 50; // Velocidade de apagamento (ms por caractere)
+    const pauseBeforeDelete = 1500; // Pausa antes de apagar (ms)
+    const pauseBeforeType = 500; // Pausa antes de digitar a próxima frase (ms)
+
+    function typeEffect() {
+        const currentPhrase = phrases[phraseIndex];
+
+        if (isDeleting) {
+            // Apagando
+            typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            // Digitanto
+            typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        let currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+            // Terminou de digitar a frase atual, pausa e começa a apagar
+            currentSpeed = pauseBeforeDelete;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            // Terminou de apagar a frase atual, passa para a próxima
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length; // Loop pelas frases
+            currentSpeed = pauseBeforeType;
+        }
+
+        setTimeout(typeEffect, currentSpeed);
+    }
+
+    // Inicia o efeito quando a página é carregada
+    if (typingTextElement) {
+        typeEffect();
+    }
+});
+
+
 // Lógica para o Modal de Imagem
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("img01");

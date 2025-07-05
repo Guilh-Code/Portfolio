@@ -129,15 +129,68 @@ a:hover {
     min-height: 400px;
 }
 
+.hero .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 960px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
 .hero h1 {
     color: var(--white);
     font-size: 4em;
     margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .hero p {
     font-size: 1.2em;
     margin-bottom: 30px;
+}
+
+/* Estilos para o Typing Effect */
+.typing-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    min-height: 40px; 
+    height: 40px;
+
+    font-size: 1.8em; 
+    font-weight: 700;
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.cursor {
+    display: inline-block;
+    background-color: var(--white);
+    width: 2px;
+    height: 1.2em;
+    margin-left: 5px;
+    vertical-align: middle;
+    animation: blink 0.7s infinite;
+}
+
+/* Animação do cursor piscando */
+@keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+body.dark-mode .typing-container {
+    color: var(--text-color); 
+}
+
+body.dark-mode .cursor {
+    background-color: var(--text-color); 
 }
 
 /* Navbar */
@@ -215,8 +268,8 @@ a:hover {
     border-radius: 50%;
     border: 5px solid var(--secondary-blue);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    width: 250px; /* Largura fixa para a imagem do perfil */
-    height: 250px; /* Altura fixa para a imagem do perfil */
+    width: 350px; /* Largura fixa para a imagem do perfil */
+    height: 350px; /* Altura fixa para a imagem do perfil */
     object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
 }
 
@@ -312,6 +365,81 @@ a:hover {
 
 .carousel-button.next {
     right: 10px;
+}
+
+/* Estilos para a Seção de Habilidades/Tecnologias */
+.skills-section {
+    padding: 60px 0; 
+    color: var(--text-color);
+    text-align: center;
+}
+
+.skills-section h2 {
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    color: var(--primary-blue);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 30px;
+    justify-items: center; 
+    max-width: 900px;
+    margin: 0 auto; 
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100px; 
+    height: 100px;
+}
+
+.skill-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.skill-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.skill-item p {
+    margin: 0;
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* Media Queries para Responsividade (ajuste se necessário) */
+@media (max-width: 768px) {
+    .skills-section h2 {
+        font-size: 2em;
+    }
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Menos colunas em telas menores */
+        gap: 20px;
+    }
+    .skill-item {
+        width: 90px;
+        height: 90px;
+    }
+    .skill-item img {
+        width: 50px;
+        height: 50px;
+    }
 }
 
 /* Seção Eventos */
@@ -439,8 +567,7 @@ a:hover {
 footer {
     background-color: var(--primary-blue);
     color: var(--white);
-    padding: 30px 0; /* Aumentei o padding */
-    margin-top: 60px; /* Aumentei a margem superior para espaçar das outras seções */
+    padding: 30px 0; 
     font-size: 0.9em;
 }
 
@@ -452,46 +579,46 @@ footer {
 
 .footer-content {
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas pequenas */
-    justify-content: space-between; /* Espaço entre os elementos */
-    align-items: center; /* Alinha verticalmente no centro */
-    gap: 20px; /* Espaçamento entre os blocos */
-    text-align: center; /* Centraliza o texto por padrão em telas pequenas */
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
 }
 
 .footer-copyright,
 .footer-social,
 .footer-links {
-    flex: 1; /* Permite que os blocos cresçam e diminuam */
-    min-width: 200px; /* Largura mínima para cada bloco */
+    flex: 1;
+    min-width: 200px;
 }
 
 .footer-copyright p {
-    margin-bottom: 0; /* Remove margem padrão do parágrafo */
+    margin-bottom: 0;
 }
 
 .footer-social a {
-    color: var(--white); /* Cor dos ícones sociais */
-    font-size: 1.5em; /* Tamanho dos ícones */
-    margin: 0 10px; /* Espaçamento entre os ícones */
+    color: var(--white);
+    font-size: 1.5em;
+    margin: 0 10px; 
     transition: color 0.3s ease;
 }
 
 .footer-social a:hover {
-    color: var(--secondary-blue); /* Cor no hover */
+    color: var(--secondary-blue);
 }
 
 .footer-links ul {
-    list-style: none; /* Remove marcadores da lista */
-    display: flex; /* Coloca os links lado a lado */
-    flex-wrap: wrap; /* Quebra em múltiplas linhas se necessário */
-    justify-content: center; /* Centraliza os links */
-    gap: 15px; /* Espaçamento entre os links */
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
 }
 
 .footer-links ul li a {
     color: var(--white);
-    font-weight: normal; /* Remove negrito se não quiser */
+    font-weight: normal;
     position: relative;
 }
 
@@ -499,9 +626,9 @@ footer {
     content: '';
     position: absolute;
     width: 0;
-    height: 1px; /* Linha mais fina */
+    height: 1px;
     background: var(--secondary-blue);
-    bottom: -3px; /* Posição da linha */
+    bottom: -3px;
     left: 0;
     transition: width 0.3s ease-in-out;
 }
@@ -647,4 +774,45 @@ footer {
         padding: 10px 20px;
         font-size: 0.8em;
     }
+}
+
+/* Personalizando a Barra de Rolagem */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+    background: #333; 
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #555; 
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+html {
+  scrollbar-color: #888 #f1f1f1;
+  scrollbar-width: thin;
+}
+
+body.dark-mode {
+  scrollbar-color: #555 #333;
 }
