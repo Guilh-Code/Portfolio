@@ -37,6 +37,7 @@
                 <li><a href="#projects">Projetos</a></li>
                 <li><a href="#certifications">Certificações</a></li>
                 <li><a href="#skills">Habilidades</a></li>
+                <li><a href="#books">Livros</a></li>
                 <li><a href="#events">Eventos</a></li>
                 <li><a href="#contact">Contato</a></li>
             </ul>
@@ -223,7 +224,7 @@
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original-wordmark.svg" />
                     </div>
                     <div class="skill-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg" />
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg" />
                     </div>
                     <div class="skill-item">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original-wordmark.svg" />
@@ -241,7 +242,26 @@
             </div>
         </section>
 
-        <section id="events" class="section-padding">
+        <section id="books" class="section-padding">
+            <div class="container">
+                <h2>Livros que me Acompanham</h2>
+                <p>A leitura é uma jornada contínua. Explore alguns dos livros que me inspiraram e contribuíram para o meu aprendizado.</p>
+
+                <div class="books-carousel-container">
+                    <button class="carousel-button prev-book" aria-label="Livro Anterior">&#10094;</button>
+                    <div class="books-carousel">
+                        <div class="book-card" data-book-id="livro-exemplo-1">
+                            <img src="Imagens/Capa Entendendo Algoritmos.jpg" alt="Capa do Livro: Entendendo Algoritmos" class="book-cover">
+                            <h3>Entendendo Algoritmos</h3>
+                            <p>Autor: Aditya Y. Bhargava</p>
+                        </div>
+                    </div>
+                    <button class="carousel-button next-book" aria-label="Próximo Livro">&#10095;</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="events" class="section-padding bg-light">
             <div class="container">
                 <h2>Eventos e Participações</h2>
                 <p>Momentos de aprendizado e networking que contribuíram para minha jornada na tecnologia.</p>
@@ -271,7 +291,7 @@
             </div>
         </section>
 
-        <section id="contact" class="section-padding bg-light">
+        <section id="contact" class="section-padding">
             <div class="container">
                 <h2>Entre em Contato</h2>
                 <p class="contact-intro-text">Gostaria de discutir uma oportunidade? Envie-me uma mensagem!</p>
@@ -318,6 +338,7 @@
                         <li><a href="#projects">Projetos</a></li>
                         <li><a href="#certifications">Certificações</a></li>
                         <li><a href="#skills">Habilidades</a></li>
+                        <li><a href="#books">Livros</a></li>
                         <li><a href="#events">Eventos</a></li>
                         <li><a href="#contact">Contato</a></li>
                     </ul>
@@ -330,6 +351,16 @@
     <span class="close-button">&times;</span>
     <img class="modal-content" id="img01">
     <div id="caption" class="caption"></div>
+    </div>
+
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modalBookTitle"></h3>
+            <img id="modalBookCover" src="" alt="Capa do Livro" class="modal-book-cover">
+            <p id="modalBookAuthor"></p>
+            <p id="modalBookDescription"></p>
+        </div>
     </div>
 
     <script src="script.js"></script>

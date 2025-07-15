@@ -87,6 +87,110 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typingTextElement) {
         typeEffect();
     }
+
+    // --- Lógica para a Seção de Livros (Carrossel e Modal) ---
+    const booksCarousel = document.querySelector('.books-carousel');
+    const prevBookButton = document.querySelector('.prev-book');
+    const nextBookButton = document.querySelector('.next-book');
+    const bookCards = document.querySelectorAll('.book-card');
+
+    const bookModal = document.getElementById('bookModal');
+    const closeButton = bookModal ? bookModal.querySelector('.close-button') : null;
+    const modalBookTitle = document.getElementById('modalBookTitle');
+    const modalBookCover = document.getElementById('modalBookCover');
+    const modalBookAuthor = document.getElementById('modalBookAuthor');
+    const modalBookDescription = document.getElementById('modalBookDescription');
+
+    // Mapeamento de dados dos livros (adicione seus livros aqui!)
+    const booksData = {
+        'livro-exemplo-1': {
+            title: "Entendendo Algoritmos",
+            author: "Aditya Y. Bhargava",
+            cover: "Imagens/Capa Entendendo Algoritmos.jpg", // Exemplo de capa
+            description: `
+            <p><strong>O que aprendi com o livro:</strong></p>
+            <p>Estudo prático dos principais algoritmos usados em programação, como busca binária, quicksort, recursão e algoritmos de grafos. Compreensão de como aplicá-los de forma eficiente para resolver problemas reais.</p>
+            <p><strong>Por que recomendo:</strong></p>
+            <p>É ideal para quem está começando na programação ou quer entender algoritmos de forma mais intuitiva e sem complicação. Ótimo para reforçar a base lógica e se preparar para entrevistas técnicas ou desafios de código.</p>
+        `
+        },
+        // Adicione mais livros aqui com seus IDs únicos
+        'livro-exemplo-2': {
+            title: "Outro Livro Legal",
+            author: "Um Autor Famoso",
+            cover: "caminho/para/outra_capa.jpg",
+            description: "Esta é a descrição do meu segundo livro. É sobre... e foi muito interessante por causa de..."
+        }
+    };
+
+    // --- Lógica do Carrossel de Livros ---
+    if (booksCarousel && prevBookButton && nextBookButton && bookCards.length > 0) {
+        let currentIndex = 0;
+        const cardWidth = bookCards[0].offsetWidth + 20; // Largura do card + gap
+
+        nextBookButton.addEventListener('click', () => {
+            if (currentIndex < bookCards.length - 1) { // Garante que não vá além do último
+                currentIndex++;
+                booksCarousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            } else {
+                 // Opcional: Voltar para o início ou desativar o botão
+                 currentIndex = 0; // Volta para o início
+                 booksCarousel.style.transform = `translateX(0px)`;
+            }
+        });
+
+        prevBookButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                booksCarousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            } else {
+                 // Opcional: Ir para o final ou desativar o botão
+                 currentIndex = bookCards.length - 1; // Vai para o final
+                 booksCarousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            }
+        });
+    }
+
+    // --- Lógica do Modal de Livros ---
+    if (bookModal && closeButton && bookCards.length > 0) {
+        bookCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const bookId = card.dataset.bookId; // Pega o ID do livro do atributo data-book-id
+                const bookInfo = booksData[bookId];
+
+                if (bookInfo) {
+                    modalBookTitle.textContent = bookInfo.title;
+                    modalBookCover.src = bookInfo.cover;
+                    modalBookCover.alt = `Capa do Livro: ${bookInfo.title}`;
+                    modalBookAuthor.textContent = `Autor: ${bookInfo.author}`;
+                    modalBookDescription.innerHTML = bookInfo.description;
+                    bookModal.style.display = 'flex'; // Mostra o modal (usando flex para centralização)
+                    document.body.style.overflow = 'hidden'; // Evita scroll no corpo ao abrir o modal
+                }
+            });
+        });
+
+        closeButton.addEventListener('click', () => {
+            bookModal.style.display = 'none'; // Esconde o modal
+            document.body.style.overflow = 'auto'; // Restaura o scroll do corpo
+        });
+
+        // Fechar o modal clicando fora do conteúdo
+        window.addEventListener('click', (event) => {
+            if (event.target == bookModal) {
+                bookModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Fechar o modal com a tecla ESC
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && bookModal.style.display === 'flex') {
+                bookModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 });
 
 
