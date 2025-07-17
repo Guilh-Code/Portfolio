@@ -69,6 +69,10 @@ a:hover {
     color: var(--primary-blue);
 }
 
+.container p {
+    text-align: center;
+}
+
 /* Botões */
 .btn-primary, .btn-secondary, .btn-tertiary {
     display: inline-block;
@@ -661,11 +665,11 @@ a:hover {
 
 /* --- Seção Posts do LinkedIn --- */
 .linkedin-carousel-container {
+    width: 100%;
     position: relative;
     overflow: hidden;
     padding: 20px 0;
     margin: 0 auto;
-    max-width: 900px; /* Limita a largura do carrossel */
 }
 
 .linkedin-carousel {

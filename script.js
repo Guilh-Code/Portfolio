@@ -388,6 +388,191 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // --- Lógica para o Carrossel de Certificados (Botões + Arrasto) ---
+    const certificationsCarousel = document.querySelector('.certifications-carousel');
+    const prevCertButton = document.querySelector('.certifications-carousel-container .prev'); // Seleciona o botão dentro do container específico
+    const nextCertButton = document.querySelector('.certifications-carousel-container .next'); // Seleciona o botão dentro do container específico
+    const certificationCards = document.querySelectorAll('.certification-card');
+
+    if (certificationsCarousel && prevCertButton && nextCertButton && certificationCards.length > 0) {
+        let currentCertIndex = 0; // Índice do primeiro card visível
+        let isDraggingCert = false;
+        let startPosCert = 0;
+        let currentTranslateCert = 0;
+        let prevTranslateCert = 0;
+
+        const getCertCardWidthAndGap = () => {
+            if (!certificationCards[0]) return 0;
+            const cardWidth = certificationCards[0].offsetWidth;
+            const carouselComputedStyle = window.getComputedStyle(certificationsCarousel);
+            const gap = parseFloat(carouselComputedStyle.gap) || 20;
+            return cardWidth + gap;
+        };
+
+        const getLastCertScrollPosition = () => {
+            if (certificationCards.length === 0) return 0;
+            const carouselContainer = certificationsCarousel.parentElement;
+            if (!carouselContainer) return 0;
+
+            const carouselContainerWidth = carouselContainer.offsetWidth;
+            let totalContentWidth = 0;
+            certificationCards.forEach(card => {
+                totalContentWidth += getCertCardWidthAndGap();
+            });
+            return Math.max(0, totalContentWidth - carouselContainerWidth);
+        };
+
+        const setCertPositionByIndex = () => {
+            const cardWidthWithGap = getCertCardWidthAndGap();
+            const lastScrollPos = getLastCertScrollPosition();
+
+            let targetTranslateX = -currentCertIndex * cardWidthWithGap;
+
+            // Ajusta para não passar do final
+            if (Math.abs(targetTranslateX) > lastScrollPos) {
+                 targetTranslateX = -lastScrollPos;
+            }
+
+            // Garante que não vai para uma posição positiva (fora do início)
+            if (targetTranslateX > 0) {
+                targetTranslateX = 0;
+            }
+            
+            certificationsCarousel.style.transform = `translateX(${targetTranslateX}px)`;
+        };
+
+        // Lógica dos botões
+        nextCertButton.addEventListener('click', () => {
+            const cardWidthWithGap = getCertCardWidthAndGap();
+            const lastScrollPosition = getLastCertScrollPosition();
+            const currentScroll = currentCertIndex * cardWidthWithGap;
+
+            const potentialNextScrollPosition = currentScroll + cardWidthWithGap;
+
+            if (potentialNextScrollPosition <= lastScrollPosition + 1) {
+                 currentCertIndex++;
+                 setCertPositionByIndex();
+            } else if (currentScroll < lastScrollPosition - 1) {
+                certificationsCarousel.style.transform = `translateX(-${lastScrollPosition}px)`;
+                currentCertIndex = certificationCards.length - 1;
+            } else {
+                currentCertIndex = 0;
+                setCertPositionByIndex();
+            }
+        });
+
+        prevCertButton.addEventListener('click', () => {
+            const cardWidthWithGap = getCertCardWidthAndGap();
+            const lastScrollPosition = getLastCertScrollPosition();
+            
+            if (currentCertIndex > 0) {
+                currentCertIndex--;
+                setCertPositionByIndex();
+            } else {
+                certificationsCarousel.style.transform = `translateX(-${lastScrollPosition}px)`;
+                currentCertIndex = certificationCards.length - 1;
+            }
+        });
+
+        // Lógica de arrastar (swipe)
+        certificationsCarousel.addEventListener('touchstart', (e) => {
+            isDraggingCert = true;
+            startPosCert = e.touches[0].clientX;
+            const transformMatrix = window.getComputedStyle(certificationsCarousel).transform;
+            if (transformMatrix !== 'none') {
+                const matrix = transformMatrix.split('(')[1].split(')')[0].split(',');
+                prevTranslateCert = parseFloat(matrix[4]);
+            } else {
+                prevTranslateCert = 0;
+            }
+            certificationsCarousel.classList.add('grabbing');
+        });
+
+        certificationsCarousel.addEventListener('touchmove', (e) => {
+            if (!isDraggingCert) return;
+            const currentTouch = e.touches[0].clientX;
+            const diff = currentTouch - startPosCert;
+            currentTranslateCert = prevTranslateCert + diff;
+
+            const maxScroll = getLastCertScrollPosition();
+            if (currentTranslateCert > 0) {
+                currentTranslateCert = currentTranslateCert * 0.5; 
+            } else if (Math.abs(currentTranslateCert) > maxScroll) {
+                currentTranslateCert = -(maxScroll + (Math.abs(currentTranslateCert) - maxScroll) * 0.5);
+            }
+
+            certificationsCarousel.style.transform = `translateX(${currentTranslateCert}px)`;
+        });
+
+        certificationsCarousel.addEventListener('touchend', () => {
+            isDraggingCert = false;
+            certificationsCarousel.classList.remove('grabbing');
+
+            const cardWidthWithGap = getCertCardWidthAndGap();
+            const movedBy = currentTranslateCert - prevTranslateCert;
+
+            if (movedBy < -50 && currentCertIndex < certificationCards.length - 1) { 
+                currentCertIndex++;
+            } else if (movedBy > 50 && currentCertIndex > 0) { 
+                currentCertIndex--;
+            }
+
+            const maxIndex = certificationCards.length - 1;
+            currentCertIndex = Math.max(0, Math.min(currentCertIndex, maxIndex));
+
+            setCertPositionByIndex(); 
+        });
+
+        certificationsCarousel.addEventListener('touchcancel', () => {
+            isDraggingCert = false;
+            certificationsCarousel.classList.remove('grabbing');
+            setCertPositionByIndex();
+        });
+    }
+
+    // --- Lógica para o Modal de Certificados (se houver) ---
+    // Se você quiser que clicar no certificado abra um modal com a imagem em tamanho maior,
+    // você precisará adicionar um modal HTML e a lógica aqui.
+    // Por exemplo:
+    const certModal = document.getElementById('certModal'); // Crie este modal no seu HTML
+    const certModalImage = document.getElementById('certModalImage'); // Crie este elemento dentro do modal
+    const certCloseButton = certModal ? certModal.querySelector('.close-button') : null;
+
+    if (certModal && certModalImage && certificationCards.length > 0) {
+        certificationCards.forEach(card => {
+            const thumbnail = card.querySelector('.certification-thumbnail');
+            if (thumbnail) {
+                thumbnail.addEventListener('click', () => {
+                    const fullsizeSrc = thumbnail.dataset.fullsizeSrc || thumbnail.src;
+                    certModalImage.src = fullsizeSrc;
+                    certModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden'; // Evita rolagem do fundo
+                });
+            }
+        });
+
+        if (certCloseButton) {
+            certCloseButton.addEventListener('click', () => {
+                certModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        window.addEventListener('click', (event) => {
+            if (event.target == certModal) {
+                certModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && certModal.style.display === 'flex') {
+                certModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 });
 
 
