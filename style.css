@@ -90,6 +90,7 @@ a:hover {
 
 .btn-primary:hover {
     background-color: var(--primary-blue);
+    color: var(--white);
 }
 
 .btn-secondary {
@@ -435,17 +436,54 @@ a:hover {
     flex: 1;
     text-align: center;
     min-width: 200px;
+    width: 350px; /* Mantenha a largura do seu contêiner */
+    height: 350px; /* Mantenha a altura do seu contêiner */
+    margin: 0 auto;
+    position: relative;
+    /* Remova qualquer pseudo-elemento ::before/::after aqui se houver de tentativas anteriores */
 }
 
 .about-image img {
     max-width: 100%;
     height: auto;
     border-radius: 50%;
-    border: 5px solid var(--secondary-blue);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    object-fit: cover;
+    
     width: 350px; /* Largura fixa para a imagem do perfil */
     height: 350px; /* Altura fixa para a imagem do perfil */
-    object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+    
+    /* REMOVA BORDAS E SOMBRAS ANTIGAS */
+    border: none; 
+    box-shadow: none; 
+
+    /* NOVO: Múltiplas sombras para criar o efeito "ondulado" */
+    box-shadow: 
+        /* Sombras mais claras e pequenas para "saliências" sutis */
+        2px 2px 5px rgba(var(--primary-blue-rgb, 30, 136, 229), 0.6),   /* Saliência inferior direita */
+        -2px -2px 5px rgba(var(--secondary-blue-rgb, 0, 119, 181), 0.6), /* Saliência superior esquerda */
+        3px -1px 4px rgba(var(--primary-blue-rgb, 30, 136, 229), 0.5),   /* Saliência superior direita */
+        -1px 3px 4px rgba(var(--secondary-blue-rgb, 0, 119, 181), 0.7),  /* Saliência inferior esquerda */
+        
+        /* Uma sombra mais geral para profundidade sutil, "anulando" as cores das anteriores */
+        0 0 0 4px var(--light-gray), /* Anel sutil ao redor */
+        
+        /* Sua sombra de profundidade principal */
+        0 5px 15px rgba(0,0,0,0.15); 
+        
+    transition: box-shadow 0.3s ease; /* Para um efeito suave ao passar o mouse */
+}
+
+/* Opcional: Efeito ao passar o mouse */
+.about-image img:hover {
+    box-shadow: 
+        3px 3px 6px rgba(var(--primary-blue-rgb, 30, 136, 229), 0.8),
+        -3px -3px 6px rgba(var(--secondary-blue-rgb, 0, 119, 181), 0.8),
+        4px -2px 5px rgba(var(--primary-blue-rgb, 30, 136, 229), 0.7),
+        -2px 4px 5px rgba(var(--secondary-blue-rgb, 0, 119, 181), 0.9),
+        
+        0 0 0 6px var(--secondary-blue), /* Anel sutil ao redor (muda de cor e engrossa) */
+
+        0 8px 20px rgba(0,0,0,0.2); /* Sombra principal mais intensa */
 }
 
 /* Seção Projetos */
@@ -807,7 +845,8 @@ a:hover {
 }
 
 .book-card {
-    flex: 0 0 180px; /* Largura fixa para cada card de livro */
+    flex: 0 0 250px; /* Largura fixa para cada card de livro */
+    width: 250px;
     background-color: var(--white);
     padding: 15px;
     border-radius: 8px;
@@ -828,8 +867,8 @@ a:hover {
 }
 
 .book-cover {
-    width: 100px; /* Largura fixa para a capa do livro */
-    height: 150px; /* Altura fixa para a capa do livro (proporção típica de livro) */
+    width: 120px; /* Largura fixa para a capa do livro */
+    height: 180px; /* Altura fixa para a capa do livro (proporção típica de livro) */
     object-fit: cover; /* Recorta a imagem para preencher o espaço sem distorcer */
     border-radius: 4px;
     margin-bottom: 10px;
@@ -968,13 +1007,13 @@ a:hover {
         padding: 10px 0;
     }
     .book-card {
-        flex: 0 0 calc(50% - 10px); /* 2 cards por linha */
-        margin: 0 5px; /* Espaçamento menor */
+        flex: 0 0 calc(50% - 20px); /* 2 cards por linha */
+        margin: 0 10px; /* Espaçamento menor */
         padding: 10px;
     }
     .book-cover {
-        width: 80px;
-        height: 120px;
+        width: 100px;
+        height: 150px;
     }
     .books-carousel-container .carousel-button {
         padding: 8px 12px;
@@ -1002,9 +1041,9 @@ a:hover {
 
 @media (max-width: 480px) {
     .book-card {
-        flex: 0 0 calc(100% - 10px); /* 1 card por linha em telas muito pequenas */
-        margin: 0 auto; /* Centraliza o card */
-        max-width: 250px; /* Garante que o card não fique muito grande */
+        flex: 0 0 calc(100% - 40px); /* 1 card por linha em telas muito pequenas */
+        margin: 0 20px; /* Centraliza o card */
+        max-width: 300px; /* Garante que o card não fique muito grande */
     }
     .books-carousel-container .carousel-button {
         display: none; /* Opcional: Esconder botões em telas muito pequenas, usar scroll */

@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mapeamento de dados dos livros
     const booksData = {
-        'livro-exemplo-1': {
+        'livro-1': {
             title: "Entendendo Algoritmos",
             author: "Aditya Y. Bhargava",
             cover: "Imagens/Capa Entendendo Algoritmos.jpg",
@@ -274,11 +274,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>É ideal para quem está começando na programação ou quer entender algoritmos de forma mais intuitiva e sem complicação. Ótimo para reforçar a base lógica e se preparar para entrevistas técnicas ou desafios de código.</p>
             `
         },
-        'livro-exemplo-2': {
-            title: "Outro Livro Legal",
-            author: "Um Autor Famoso",
-            cover: "caminho/para/outra_capa.jpg",
-            description: "Esta é a descrição do meu segundo livro. É sobre... e foi muito interessante por causa de..."
+        'livro-2': {
+            title: "Lógica de Programação e Algoritmos com JavaScript",
+            author: "Edécio Fernando Iepsen",
+            cover: "Imagens/Capa_JS_Algoritmos.jpg",
+            description: `
+                <p><strong>O que aprendi com o livro:</strong></p>
+                <p>Fortalecimento da base lógica em programação por meio de exemplos práticos com JavaScript. Estruturas fundamentais como variáveis, operadores, condicionais, laços de repetição e funções são explicadas de forma clara e didática.</p>
+                <p><strong>Por que recomendo:</strong></p>
+                <p>Excelente leitura para quem está começando e deseja aprender lógica de programação de forma aplicada com JavaScript. O livro ajuda a desenvolver o raciocínio lógico necessário para resolver problemas de forma estruturada.</p>
+            `
         }
     };
 
