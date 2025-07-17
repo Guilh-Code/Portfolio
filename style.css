@@ -659,6 +659,130 @@ a:hover {
     }
 }
 
+/* --- Seção Posts do LinkedIn --- */
+.linkedin-carousel-container {
+    position: relative;
+    overflow: hidden;
+    padding: 20px 0;
+    margin: 0 auto;
+    max-width: 900px; /* Limita a largura do carrossel */
+}
+
+.linkedin-carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    justify-content: flex-start; /* Inicialmente, alinha à esquerda */
+    gap: 20px;
+    padding-bottom: 20px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.linkedin-post-card {
+    flex: 0 0 250px; /* Largura padrão para cada card de post */
+    background-color: var(--white);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    border: 1px solid var(--light-gray);
+    transition: transform 0.3s ease;
+    cursor: pointer; /* Indica que é clicável */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.linkedin-post-card:hover {
+    transform: translateY(-5px); /* Efeito de elevação */
+}
+
+.post-thumbnail {
+    width: 100%;
+    height: 150px; /* Altura fixa para a miniatura do post */
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.linkedin-post-card h3 {
+    font-size: 1.3em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: var(--primary-blue);
+    line-height: 1.3;
+}
+
+.linkedin-post-card .post-date {
+    font-size: 0.85em;
+    color: var(--gray);
+    margin-bottom: 0;
+}
+
+/* Botões de Navegação do Carrossel de Posts (igual aos livros, se quiser) */
+.linkedin-carousel-container .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(44, 62, 80, 0.7); /* Cor escura padrão */
+    color: var(--white);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.5em;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.linkedin-carousel-container .carousel-button:hover {
+    background-color: var(--secondary-blue); /* Cor azul ao passar o mouse */
+}
+
+.linkedin-carousel-container .prev-linkedin {
+    left: 0px;
+}
+
+.linkedin-carousel-container .next-linkedin {
+    right: 0px;
+}
+
+/* Responsividade para a Seção Posts do LinkedIn */
+@media (max-width: 768px) {
+    .linkedin-post-card {
+        flex: 0 0 calc(50% - 10px); /* 2 cards por linha */
+        margin: 0 5px;
+    }
+    .post-thumbnail {
+        height: 120px;
+    }
+    .linkedin-carousel-container .carousel-button {
+        padding: 8px 12px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .linkedin-post-card {
+        flex: 0 0 calc(100% - 10px); /* 1 card por linha */
+        margin: 0 auto;
+        max-width: 280px;
+    }
+    .linkedin-carousel-container .carousel-button {
+        display: none; /* Opcional: esconder botões em telas pequenas */
+    }
+    .linkedin-carousel {
+        overflow-x: scroll; /* Permite scroll manual */
+        scroll-snap-type: x mandatory;
+    }
+    .linkedin-post-card {
+        scroll-snap-align: start;
+    }
+}
+
 /* --- Seção Livros Lidos --- */
 .books-carousel-container {
     position: relative;

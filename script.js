@@ -20,11 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (hamburger && navLinks) {
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active'); // Alterna a visibilidade do menu
-            hamburger.classList.toggle('active'); // Anima o ícone do hambúrguer para um X
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
         });
 
-        // Fechar o menu quando um link é clicado (útil no mobile)
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -39,18 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
         "Analista de Dados em Formação",
         "Estudante focado em Python & Dados",
         "Bem-vindo ao meu Portfólio!"
-    ]; // Suas frases para animar
+    ];
 
     let phraseIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    const typingSpeed = 100; // Velocidade de digitação (ms por caractere)
-    const deletingSpeed = 50; // Velocidade de apagamento (ms por caractere)
-    const pauseBeforeDelete = 1500; // Pausa antes de apagar (ms)
-    const pauseBeforeType = 500; // Pausa antes de digitar a próxima frase (ms)
+    const typingSpeed = 100;
+    const deletingSpeed = 50;
+    const pauseBeforeDelete = 1500;
+    const pauseBeforeType = 500;
 
     function typeEffect() {
-        // Verifica se o elemento existe antes de tentar manipulá-lo
         if (!typingTextElement) {
             return;
         }
@@ -58,11 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentPhrase = phrases[phraseIndex];
 
         if (isDeleting) {
-            // Apagando
             typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
             charIndex--;
         } else {
-            // Digitanto
             typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
             charIndex++;
         }
@@ -70,36 +66,187 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
 
         if (!isDeleting && charIndex === currentPhrase.length) {
-            // Terminou de digitar a frase atual, pausa e começa a apagar
             currentSpeed = pauseBeforeDelete;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
-            // Terminou de apagar a frase atual, passa para a próxima
             isDeleting = false;
-            phraseIndex = (phraseIndex + 1) % phrases.length; // Loop pelas frases
+            phraseIndex = (phraseIndex + 1) % phrases.length;
             currentSpeed = pauseBeforeType;
         }
 
         setTimeout(typeEffect, currentSpeed);
     }
 
-    // Inicia o efeito quando a página é carregada
     if (typingTextElement) {
         typeEffect();
     }
 
+    // =================================================================
+    // ANIMAÇÃO DE SCROLL (REVELAR SEÇÕES)
+    // =================================================================
     const sections = document.querySelectorAll('.section-hidden');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('section-visible');
-                observer.unobserve(entry.target); // Para de observar a seção depois que ela aparece
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 }); // O threshold de 0.15 significa que a animação dispara quando 15% da seção está visível
-
-    // Observa cada seção que tem a classe 'section-hidden'
+    }, { threshold: 0.15 });
     sections.forEach(section => observer.observe(section));
+
+
+    // --- Lógica para a Seção de Posts do LinkedIn (Carrossel e Redirecionamento) ---
+    const linkedinCarousel = document.querySelector('.linkedin-carousel');
+    const prevLinkedinButton = document.querySelector('.prev-linkedin');
+    const nextLinkedinButton = document.querySelector('.next-linkedin');
+    const linkedinPostCards = document.querySelectorAll('.linkedin-post-card');
+
+    // Mapeamento de dados dos posts do LinkedIn
+    const linkedinPostsData = {
+        'post-MySQL': {
+            title: "🚀 Estudo de SQL com foco em MySQL",
+            thumbnail: "Imagens/Capturas/Post_SQL_com_MySQL_teste.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_sql-mysql-anaerlisededados-activity-7350875540792205312-jMsn?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-Pandas': {
+            title: "🚀 O que aprendi sobre Pandas com Python",
+            thumbnail: "Imagens/Capturas/Post_Pandas.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-pandas-analisededados-activity-7345858768213024768-SGAY?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-POO': { // ID alterado para ser único
+            title: "Estudos em Python: foco em POO 🐍",
+            thumbnail: "Imagens/Capturas/Post_POO.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-poo-programacaoorientadaaobjetos-activity-7343254076383498241-diOY?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-APis': {
+            title: "📘 Aprendizados no Bootcamp de APIs em Python",
+            thumbnail: "Imagens/Capturas/Post_APis.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-apis-bootcamp-activity-7348319956662394883-psVw?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-CursoBasico': {
+            title: "🚀 Python + Data Science: nível básico completo!",
+            thumbnail: "Imagens/Capturas/Post_DSA_Basico.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-datascience-pandas-activity-7347987786001543169-D_sF?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-POOForca': {
+            title: "💻 Python + POO: atualização no projeto Jogo da Forca!",
+            thumbnail: "Imagens/Capturas/Post_Forca_POO.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-poo-projetopessoal-activity-7341517632405164036-68oS?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-QuickSort': {
+            title: "🚀 QuickSort na prática: o que aprendi no capítulo 4!",
+            thumbnail: "Imagens/Capturas/Post_QuickSort.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_quicksort-algoritmos-estruturadedados-activity-7333832071217397760-zx_3?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-Matplotlib': {
+            title: "🚀 Visualização de Dados com Python: finalizei o capítulo 11!",
+            thumbnail: "Imagens/Capturas/Post_Matplotlib.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-datascience-matplotlib-activity-7346591057616257025-RZU7?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
+        'post-NumPy': {
+            title: "📊 Estudando NumPy de forma prática",
+            thumbnail: "Imagens/Capturas/Post_NumPy.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-numpy-datascience-activity-7343631582886338561-jvdT?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        }
+    };
+
+    // --- Lógica do Carrossel de Posts - AJUSTADA ---
+    if (linkedinCarousel && prevLinkedinButton && nextLinkedinButton && linkedinPostCards.length > 0) {
+        let currentLinkedinIndex = 0; // Índice do primeiro card visível
+
+        // Calcula a largura de um card + gap, de forma dinâmica
+        const getLinkedinCardWidthAndGap = () => {
+            if (!linkedinPostCards[0]) return 0;
+            const cardWidth = linkedinPostCards[0].offsetWidth;
+            const carouselComputedStyle = window.getComputedStyle(linkedinCarousel);
+            // Pega o gap real do CSS. Se não houver, ou for 'normal', usa 20px.
+            const gap = parseFloat(carouselComputedStyle.gap) || 20; 
+            return cardWidth + gap;
+        };
+
+        // Calcula a posição de transformX para o último card visível se alinhar
+        const getLastLinkedinScrollPosition = () => {
+            if (linkedinPostCards.length === 0) return 0;
+            const carouselContainer = linkedinCarousel.parentElement;
+            if (!carouselContainer) return 0;
+
+            const carouselContainerWidth = carouselContainer.offsetWidth;
+            const cardWidthWithGap = getLinkedinCardWidthAndGap();
+
+            // Calcule o número de cards visíveis de uma vez
+            // Arredonda para baixo para ter certeza que um card não está cortado
+            const visibleCards = Math.floor(carouselContainerWidth / cardWidthWithGap);
+
+            // Se o número de cards for menor ou igual aos visíveis, não há rolagem
+            if (linkedinPostCards.length <= visibleCards) {
+                return 0;
+            }
+
+            // A posição de rolagem para o último set de cards
+            // Subtrai a largura total visível do contêiner da largura total do conteúdo
+            // Isso garante que a rolagem pare exatamente onde o último card visível se alinha.
+            let totalContentWidth = 0;
+            linkedinPostCards.forEach(card => {
+                totalContentWidth += getLinkedinCardWidthAndGap();
+            });
+            return totalContentWidth - carouselContainerWidth;
+        };
+
+
+        nextLinkedinButton.addEventListener('click', () => {
+            const cardWidthWithGap = getLinkedinCardWidthAndGap();
+            const lastScrollPosition = getLastLinkedinScrollPosition();
+            const currentScroll = currentLinkedinIndex * cardWidthWithGap;
+
+            if (currentScroll < lastScrollPosition) {
+                // Se ainda não atingiu a posição final exata
+                // Verifica se a próxima rolagem completa ainda estaria dentro do limite
+                if (currentScroll + cardWidthWithGap < lastScrollPosition) {
+                     currentLinkedinIndex++;
+                     linkedinCarousel.style.transform = `translateX(-${currentLinkedinIndex * cardWidthWithGap}px)`;
+                } else {
+                    // Se a próxima rolagem completa ultrapassar, vá para a posição final exata
+                    linkedinCarousel.style.transform = `translateX(-${lastScrollPosition}px)`;
+                    currentLinkedinIndex = linkedinPostCards.length - 1; // Ajusta índice para o último
+                }
+            } else {
+                // Já está no final, volta para o início
+                currentLinkedinIndex = 0;
+                linkedinCarousel.style.transform = `translateX(0px)`;
+            }
+        });
+
+        prevLinkedinButton.addEventListener('click', () => {
+            const cardWidthWithGap = getLinkedinCardWidthAndGap();
+            const lastScrollPosition = getLastLinkedinScrollPosition();
+            
+            if (currentLinkedinIndex > 0) {
+                currentLinkedinIndex--;
+                linkedinCarousel.style.transform = `translateX(-${currentLinkedinIndex * cardWidthWithGap}px)`;
+            } else {
+                // Já está no início, vá para o final.
+                // A posição para o final deve ser exatamente o lastScrollPosition
+                linkedinCarousel.style.transform = `translateX(-${lastScrollPosition}px)`;
+                currentLinkedinIndex = linkedinPostCards.length - 1; // Define o índice como o último
+            }
+        });
+    }
+
+    // --- Lógica de Clique nos Cards de Post para Abrir o LinkedIn ---
+    if (linkedinPostCards.length > 0) {
+        linkedinPostCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const postId = card.dataset.postId;
+                const postInfo = linkedinPostsData[postId];
+
+                if (postInfo && postInfo.link) {
+                    window.open(postInfo.link, '_blank');
+                }
+            });
+        });
+    }
+
 
     // --- Lógica para a Seção de Livros (Carrossel e Modal) ---
     const booksCarousel = document.querySelector('.books-carousel');
@@ -114,20 +261,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalBookAuthor = document.getElementById('modalBookAuthor');
     const modalBookDescription = document.getElementById('modalBookDescription');
 
-    // Mapeamento de dados dos livros (adicione seus livros aqui!)
+    // Mapeamento de dados dos livros
     const booksData = {
         'livro-exemplo-1': {
             title: "Entendendo Algoritmos",
             author: "Aditya Y. Bhargava",
-            cover: "Imagens/Capa Entendendo Algoritmos.jpg", // Exemplo de capa
+            cover: "Imagens/Capa Entendendo Algoritmos.jpg",
             description: `
-            <p><strong>O que aprendi com o livro:</strong></p>
-            <p>Estudo prático dos principais algoritmos usados em programação, como busca binária, quicksort, recursão e algoritmos de grafos. Compreensão de como aplicá-los de forma eficiente para resolver problemas reais.</p>
-            <p><strong>Por que recomendo:</strong></p>
-            <p>É ideal para quem está começando na programação ou quer entender algoritmos de forma mais intuitiva e sem complicação. Ótimo para reforçar a base lógica e se preparar para entrevistas técnicas ou desafios de código.</p>
-        `
+                <p><strong>O que aprendi com o livro:</strong></p>
+                <p>Estudo prático dos principais algoritmos usados em programação, como busca binária, quicksort, recursão e algoritmos de grafos. Compreensão de como aplicá-los de forma eficiente para resolver problemas reais.</p>
+                <p><strong>Por que recomendo:</strong></p>
+                <p>É ideal para quem está começando na programação ou quer entender algoritmos de forma mais intuitiva e sem complicação. Ótimo para reforçar a base lógica e se preparar para entrevistas técnicas ou desafios de código.</p>
+            `
         },
-        // Adicione mais livros aqui com seus IDs únicos
         'livro-exemplo-2': {
             title: "Outro Livro Legal",
             author: "Um Autor Famoso",
@@ -136,30 +282,70 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // --- Lógica do Carrossel de Livros ---
+    // --- Lógica do Carrossel de Livros - AJUSTADA ---
     if (booksCarousel && prevBookButton && nextBookButton && bookCards.length > 0) {
-        let currentIndex = 0;
-        const cardWidth = bookCards[0].offsetWidth + 20; // Largura do card + gap
+        let currentIndex = 0; // Índice do primeiro card visível
+
+        // Calcula a largura de um card + gap
+        const getBookCardWidthAndGap = () => {
+            if (!bookCards[0]) return 0;
+            const cardWidth = bookCards[0].offsetWidth;
+            const carouselComputedStyle = window.getComputedStyle(booksCarousel);
+            const gap = parseFloat(carouselComputedStyle.gap) || 20;
+            return cardWidth + gap;
+        };
+
+        // Calcula a posição de transformX para o último card visível se alinhar
+        const getLastBookScrollPosition = () => {
+            if (bookCards.length === 0) return 0;
+            const carouselContainer = booksCarousel.parentElement;
+            if (!carouselContainer) return 0;
+
+            const carouselContainerWidth = carouselContainer.offsetWidth;
+            const cardWidthWithGap = getBookCardWidthAndGap();
+            
+            const visibleCards = Math.floor(carouselContainerWidth / cardWidthWithGap);
+
+            if (bookCards.length <= visibleCards) {
+                return 0;
+            }
+
+            let totalContentWidth = 0;
+            bookCards.forEach(card => {
+                totalContentWidth += getBookCardWidthAndGap();
+            });
+            return totalContentWidth - carouselContainerWidth;
+        };
 
         nextBookButton.addEventListener('click', () => {
-            if (currentIndex < bookCards.length - 1) { // Garante que não vá além do último
-                currentIndex++;
-                booksCarousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            const cardWidthWithGap = getBookCardWidthAndGap();
+            const lastScrollPosition = getLastBookScrollPosition();
+            const currentScroll = currentIndex * cardWidthWithGap;
+
+            const potentialNextScrollPosition = currentScroll + cardWidthWithGap;
+
+            if (potentialNextScrollPosition <= lastScrollPosition) {
+                 currentIndex++;
+                 booksCarousel.style.transform = `translateX(-${currentIndex * cardWidthWithGap}px)`;
+            } else if (currentScroll < lastScrollPosition) {
+                booksCarousel.style.transform = `translateX(-${lastScrollPosition}px)`;
+                currentIndex = bookCards.length - 1;
             } else {
-                 // Opcional: Voltar para o início ou desativar o botão
-                 currentIndex = 0; // Volta para o início
-                 booksCarousel.style.transform = `translateX(0px)`;
+                currentIndex = 0;
+                booksCarousel.style.transform = `translateX(0px)`;
             }
         });
 
         prevBookButton.addEventListener('click', () => {
+            const cardWidthWithGap = getBookCardWidthAndGap();
+            const lastScrollPosition = getLastBookScrollPosition();
+
             if (currentIndex > 0) {
                 currentIndex--;
-                booksCarousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+                booksCarousel.style.transform = `translateX(-${currentIndex * cardWidthWithGap}px)`;
             } else {
-                 // Opcional: Ir para o final ou desativar o botão
-                 currentIndex = bookCards.length - 1; // Vai para o final
-                 booksCarousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+                booksCarousel.style.transform = `translateX(-${lastScrollPosition}px)`;
+                currentIndex = bookCards.length - 1;
             }
         });
     }
@@ -168,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (bookModal && closeButton && bookCards.length > 0) {
         bookCards.forEach(card => {
             card.addEventListener('click', () => {
-                const bookId = card.dataset.bookId; // Pega o ID do livro do atributo data-book-id
+                const bookId = card.dataset.bookId;
                 const bookInfo = booksData[bookId];
 
                 if (bookInfo) {
@@ -177,18 +363,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     modalBookCover.alt = `Capa do Livro: ${bookInfo.title}`;
                     modalBookAuthor.textContent = `Autor: ${bookInfo.author}`;
                     modalBookDescription.innerHTML = bookInfo.description;
-                    bookModal.style.display = 'flex'; // Mostra o modal (usando flex para centralização)
-                    document.body.style.overflow = 'hidden'; // Evita scroll no corpo ao abrir o modal
+                    bookModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
                 }
             });
         });
 
         closeButton.addEventListener('click', () => {
-            bookModal.style.display = 'none'; // Esconde o modal
-            document.body.style.overflow = 'auto'; // Restaura o scroll do corpo
+            bookModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
 
-        // Fechar o modal clicando fora do conteúdo
         window.addEventListener('click', (event) => {
             if (event.target == bookModal) {
                 bookModal.style.display = 'none';
@@ -196,7 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Fechar o modal com a tecla ESC
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && bookModal.style.display === 'flex') {
                 bookModal.style.display = 'none';
