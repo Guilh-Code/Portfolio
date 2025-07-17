@@ -112,6 +112,18 @@ a:hover {
     color: var(--white);
 }
 
+/* --- Animação de Revelar Seção ao Scrollar --- */
+.section-hidden {
+    opacity: 0; /* Começa totalmente invisível */
+    transform: translateY(80px); /* Começa 80px abaixo da posição final */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Transição suave */
+}
+
+.section-visible {
+    opacity: 1; /* Fica totalmente visível */
+    transform: translateY(0); /* Volta para a posição original */
+}
+
 /* Seções */
 .section-padding {
     padding: 80px 0;

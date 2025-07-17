@@ -88,6 +88,19 @@ document.addEventListener('DOMContentLoaded', function() {
         typeEffect();
     }
 
+    const sections = document.querySelectorAll('.section-hidden');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('section-visible');
+                observer.unobserve(entry.target); // Para de observar a seção depois que ela aparece
+            }
+        });
+    }, { threshold: 0.15 }); // O threshold de 0.15 significa que a animação dispara quando 15% da seção está visível
+
+    // Observa cada seção que tem a classe 'section-hidden'
+    sections.forEach(section => observer.observe(section));
+
     // --- Lógica para a Seção de Livros (Carrossel e Modal) ---
     const booksCarousel = document.querySelector('.books-carousel');
     const prevBookButton = document.querySelector('.prev-book');
