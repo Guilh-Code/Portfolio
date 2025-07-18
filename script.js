@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Lógica para o Efeito de Digitação (Typing Effect) ---
     const typingTextElement = document.getElementById('typing-text');
     const phrases = [
-        "Data Science | Analista de Dados em Formação",
+        "Data Science | Analista de Dados<br>em Formação",
         "Estudante focado em Python & Dados",
         "Bem-vindo ao meu Portfólio!"
     ];
@@ -56,10 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentPhrase = phrases[phraseIndex];
 
         if (isDeleting) {
-            typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+            typingTextElement.innerHTML = currentPhrase.substring(0, charIndex - 1);
             charIndex--;
         } else {
-            typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+            typingTextElement.innerHTML = currentPhrase.substring(0, charIndex + 1);
             charIndex++;
         }
 

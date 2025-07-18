@@ -184,7 +184,7 @@ a:hover {
     font-weight: 700;
     color: var(--white);
     font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -225,15 +225,6 @@ a:hover {
     margin: 0 auto;
     padding: 0 20px;
 }
-
-/* Estilo para o título/logo (removido do HTML da navbar, então estas regras não serão aplicadas) */
-.site-title {
-    display: none; /* Garante que não apareça se, por algum motivo, ainda estiver no HTML */
-}
-.site-title a {
-    display: none; /* Garante que não apareça */
-}
-
 
 /* Esconder o menu hambúrguer por padrão em telas maiores */
 .hamburger-menu {
