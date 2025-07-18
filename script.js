@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Lógica para o Efeito de Digitação (Typing Effect) ---
     const typingTextElement = document.getElementById('typing-text');
     const phrases = [
-        "Analista de Dados em Formação",
+        "Data Science | Analista de Dados em Formação",
         "Estudante focado em Python & Dados",
         "Bem-vindo ao meu Portfólio!"
     ];
