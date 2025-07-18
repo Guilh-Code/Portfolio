@@ -635,6 +635,76 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const skillTrack = document.querySelector('.skills-track');
+    if (!skillTrack) return;
+
+    const skillItems = Array.from(skillTrack.children);
+    const horizontalGap = 150; // Espaço horizontal entre os ícones (AJUSTE para mais ou menos distância)
+    const randomYRange = 20;   // Variação vertical aleatória (+/- 20px do centro)
+
+    let currentXPositions = []; // Armazena a posição X atual de cada item
+    let itemYOffsets = [];      // Armazena o offset Y aleatório para cada item
+
+    // Calcula as posições X iniciais para CADA item presente no HTML (incluindo as duplicatas)
+    skillItems.forEach((item, index) => {
+        const itemWidth = item.offsetWidth; 
+        let initialX;
+        if (index === 0) {
+            initialX = 0;
+        } else {
+            // Cada item subsequente começa após o item anterior + o gap
+            const prevItemRightEdge = currentXPositions[index - 1] + skillItems[index - 1].offsetWidth;
+            initialX = prevItemRightEdge + horizontalGap;
+        }
+        currentXPositions.push(initialX);
+
+        // Calcula e armazena o offset Y aleatório para a "bagunça" vertical
+        const randomY = (Math.random() * randomYRange * 2) - randomYRange;
+        itemYOffsets.push(randomY);
+
+        // Aplica o transform inicial (X já é o transform, Y também)
+        item.style.transform = `translateX(${initialX}px) translateY(calc(-50% + ${randomY}px))`;
+    });
+
+    // Calcula a largura total de TODO o conteúdo HTML da pista (ex: A B C D A B C D)
+    // Isso é o 'comprimento' total do conteúdo que se repete visualmente.
+    const totalContentLength = currentXPositions[skillItems.length - 1] + skillItems[skillItems.length - 1].offsetWidth + horizontalGap;
+
+    // A 'distância' de um único conjunto de ícones (ex: apenas A B C D).
+    // Usamos isso como o ponto de gatilho para o loop.
+    // Assumimos que o HTML tem EXATAMENTE o dobro de um conjunto único de ícones.
+    const singleSetLength = totalContentLength / 2; 
+
+    const speed = 1.8; // Velocidade de rolagem (pixels por frame). AJUSTE PARA MAIS RÁPIDO OU LENTO.
+
+    function animate() {
+        skillItems.forEach((item, index) => {
+            currentXPositions[index] -= speed; // Move o item para a esquerda
+
+            // Lógica de Loop Infinito (Sem Esperar):
+            // Quando a posição X de um item é menor que -singleSetLength, significa que ele
+            // já passou completamente da área que o *primeiro conjunto* de ícones cobria,
+            // e o *segundo conjunto* já está preenchendo a tela.
+            if (currentXPositions[index] < -singleSetLength) {
+                // Teleporta o item para a frente adicionando a largura TOTAL do conteúdo HTML.
+                // Isso faz com que ele reapareça exatamente após o último item da sequência duplicada,
+                // criando um loop contínuo e sem lacunas visíveis.
+                currentXPositions[index] += totalContentLength;
+            }
+
+            // Aplica a nova posição (X e Y) ao elemento
+            item.style.transform = `translateX(${currentXPositions[index]}px) translateY(calc(-50% + ${itemYOffsets[index]}px))`;
+        });
+
+        // Solicita o próximo frame da animação
+        requestAnimationFrame(animate);
+    }
+
+    animate(); // Inicia a animação
+});
+
+
 // Lógica para o Modal de Imagem
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("img01");
