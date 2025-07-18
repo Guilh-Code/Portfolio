@@ -587,9 +587,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Seleciona todos os cards de projeto
-    const projectCards = document.querySelectorAll('.project-card');
+    const cardsWithReadMore = document.querySelectorAll('.project-card, .event-card'); 
 
-    projectCards.forEach(card => {
+    cardsWithReadMore.forEach(card => {
         const descriptionShort = card.querySelector('.description-short');
         const readMoreBtn = card.querySelector('.read-more-btn');
         const paragraph = descriptionShort.querySelector('p');

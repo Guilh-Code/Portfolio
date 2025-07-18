@@ -417,30 +417,39 @@ a:hover {
 .about-content {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 80px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .about-text {
     flex: 2;
     min-width: 300px;
     text-align: justify;
+    font-size: 1.05em;
+    line-height: 1.5;
+}
+
+.about-text p {
+    font-size: 1.1em; /* Garante que os parágrafos herdem o tamanho */
+    line-height: 1.7;
+    margin-bottom: 1em; /* Espaçamento entre parágrafos */
 }
 
 .resume-button {
     margin-top: 30px;
     text-align: center;
+    width: 100%;
 }
 
 .about-image {
     flex: 1;
     text-align: center;
-    min-width: 200px;
-    width: 350px; /* Mantenha a largura do seu contêiner */
-    height: 350px; /* Mantenha a altura do seu contêiner */
+    min-width: 280px;
+    width: 400px; /* Mantenha a largura do seu contêiner */
+    height: 400px; /* Mantenha a altura do seu contêiner */
     margin: 0 auto;
     position: relative;
-    /* Remova qualquer pseudo-elemento ::before/::after aqui se houver de tentativas anteriores */
 }
 
 .about-image img {
@@ -449,8 +458,8 @@ a:hover {
     border-radius: 50%;
     object-fit: cover;
     
-    width: 350px; /* Largura fixa para a imagem do perfil */
-    height: 350px; /* Altura fixa para a imagem do perfil */
+    width: 400px; /* Largura fixa para a imagem do perfil */
+    height: 400px; /* Altura fixa para a imagem do perfil */
     
     /* REMOVA BORDAS E SOMBRAS ANTIGAS */
     border: none; 
@@ -485,6 +494,37 @@ a:hover {
 
         0 8px 20px rgba(0,0,0,0.2); /* Sombra principal mais intensa */
 }
+
+/* Media query para telas menores: Ajustar tamanho da imagem e texto */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column; /* Coloca a imagem e o texto em colunas */
+        gap: 30px; /* Reduz o gap quando em coluna */
+    }
+
+    .about-image {
+        width: 250px; /* Reduz o tamanho da imagem em telas menores */
+        height: 250px;
+        min-width: unset; /* Remove o min-width para flexibilidade */
+    }
+
+    .about-image img {
+        width: 250px;
+        height: 250px;
+    }
+
+    .about-text {
+        min-width: unset; /* Remove min-width para o texto se ajustar melhor */
+        max-width: 100%; /* Ocupa a largura total disponível */
+        font-size: 1em; /* Volta ao tamanho padrão em telas menores */
+        padding: 0 15px; /* Adiciona um pouco de padding lateral para não colar nas bordas */
+    }
+
+    .about-text p {
+        font-size: 1em;
+    }
+}
+
 
 /* Seção Projetos */
 .projects-grid {
@@ -1134,10 +1174,11 @@ a:hover {
 
 .event-card {
     background-color: var(--white);
-    padding: 20px;
+    /* Removendo padding para que o .description-short possa ter controle total do espaçamento interno */
+    padding: 0; /* Zera o padding do card principal */
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    text-align: left; /* Alinhei o texto à esquerda para consistência */
+    text-align: left; /* Mantido */
     transition: transform 0.3s ease;
 }
 
@@ -1149,8 +1190,10 @@ a:hover {
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Espaço entre as imagens e o h3 */
     flex-wrap: wrap;
+    padding: 20px 20px 0 20px; /* Adiciona padding aqui para as imagens ficarem alinhadas, mas sem ir até a borda superior */
+    /* Se você quiser que as imagens ocupem a largura total do card, remova este padding */
 }
 
 .event-card .event-images-row-smaller img {
@@ -1166,6 +1209,73 @@ a:hover {
 
 .event-card .event-images-row-smaller img:hover {
     transform: scale(1.05);
+}
+
+/* NOVO: Estilos para o .description-short dentro do .event-card */
+.event-card .description-short {
+    max-height: 100px; /* <--- AJUSTE ESTE VALOR: Altura máxima antes de cortar. Teste para ver quantas linhas cabem. */
+    overflow: hidden;
+    position: relative;
+    padding: 0 20px; /* Adiciona padding lateral para o texto da descrição */
+    /* Não adicione margin-bottom aqui, pois o botão .read-more-btn já terá margin-top */
+}
+
+/* NOVO: Gradiente de fade para o .description-short na seção de eventos */
+.event-card .description-short::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Alinha com o padding-left do .description-short */
+    width: calc(100% - 40px); /* 100% da largura do contêiner, menos 2x o padding lateral (20px + 20px) */
+    height: 40px; /* Altura do gradiente */
+    background: linear-gradient(to top, var(--white) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+    /* Se o fundo do seu event-card não for --white, mude o primeiro parâmetro do gradiente */
+    /* Exemplo: background: linear-gradient(to top, var(--light-gray) 0%, rgba(255,255,255,0) 100%); */
+}
+
+/* Quando a descrição é expandida */
+.event-card .description-short.expanded {
+    max-height: none; /* Remove a altura máxima */
+}
+
+.event-card .description-short.expanded::after {
+    display: none; /* Esconde o gradiente quando expandido */
+}
+
+/* NOVO: Estilos para o botão "Ver mais..." dentro do .event-card */
+.event-card .read-more-btn {
+    margin-top: 10px; /* Espaço entre a descrição e o botão */
+    margin-bottom: 10px; /* Espaço entre este botão e outros elementos abaixo */
+    /* Para centralizar o botão e alinhar com o texto, se o text-align do card é left: */
+    display: block; /* Ocupa a largura total para que margin auto funcione */
+    margin-left: auto;
+    margin-right: auto;
+    /* Ou, para alinhar à esquerda junto com o texto */
+    /* display: inline-block; */
+    /* float: left; */ /* Use float com cuidado */
+}
+
+/* Ajustes para o h3 e p dentro do .event-card para espaçamento */
+.event-card h3 {
+    margin-top: 15px; /* Espaço entre as imagens e o título */
+    margin-bottom: 15px; /* Espaço entre o título e a descrição */
+    padding: 0 20px; /* Para alinhar o título com o padding da descrição */
+}
+
+.event-card .description-short p {
+    margin-bottom: 0; /* Zera a margem do parágrafo, o espaçamento é controlado pelo .description-short */
+}
+
+/* Estilos para o link "Detalhes do Evento" dentro do .event-card */
+.event-card .btn-secondary {
+    margin-top: 20px; /* Espaço entre o botão "Ver mais" e o link ou abaixo da descrição se não houver "Ver mais" */
+    margin-bottom: 0; /* Remove margem inferior se houver */
+}
+
+/* Classe de utilidade para esconder elementos */
+.hide {
+    display: none !important;
 }
 
 /* Estilos do Formulário de Contato */
