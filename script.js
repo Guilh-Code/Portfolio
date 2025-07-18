@@ -119,6 +119,11 @@ document.addEventListener('DOMContentLoaded', function() {
             thumbnail: "Imagens/Capturas/Post_POO.png",
             link: "https://www.linkedin.com/posts/guilhrodrigues_python-poo-programacaoorientadaaobjetos-activity-7343254076383498241-diOY?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
         },
+        'post-estatistica': {
+            title: "🔍 Statsmodels: Análise Estatística com Python",
+            thumbnail: "Imagens/Capturas/Post_Análise_Estatística.png",
+            link: "https://www.linkedin.com/posts/guilhrodrigues_python-datascience-estataedstica-activity-7351950622625030145-IBDE?utm_source=share&utm_medium=member_desktop&rcm=ACoAADga5vEB_1JGYYuLdMITd9V05P-hjoxtEDc"
+        },
         'post-APis': {
             title: "📘 Aprendizados no Bootcamp de APIs em Python",
             thumbnail: "Imagens/Capturas/Post_APis.png",
@@ -578,6 +583,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleciona todos os cards de projeto
+    const projectCards = document.querySelectorAll('.project-card');
+
+    projectCards.forEach(card => {
+        const descriptionShort = card.querySelector('.description-short');
+        const readMoreBtn = card.querySelector('.read-more-btn');
+        const paragraph = descriptionShort.querySelector('p');
+
+        // Clona o parágrafo para medir sua altura real sem o limite de max-height
+        // Isso é necessário porque o .description-short tem overflow: hidden e max-height
+        const tempDiv = document.createElement('div');
+        tempDiv.style.visibility = 'hidden';
+        tempDiv.style.position = 'absolute';
+        tempDiv.style.height = 'auto'; // Garante que a altura seja a natural
+        tempDiv.style.width = descriptionShort.offsetWidth + 'px'; // Mesma largura do contêiner visível
+        tempDiv.style.padding = window.getComputedStyle(descriptionShort).padding; // Copia padding do pai
+        tempDiv.innerHTML = paragraph.innerHTML; // Copia o conteúdo do parágrafo
+        document.body.appendChild(tempDiv);
+
+        // Compara a altura real do conteúdo com a altura máxima definida
+        const isContentLong = tempDiv.offsetHeight > descriptionShort.offsetHeight;
+        
+        document.body.removeChild(tempDiv); // Remove o div temporário
+
+        if (isContentLong) {
+            readMoreBtn.classList.remove('hide'); // Mostra o botão "Ver mais..."
+        } else {
+            readMoreBtn.classList.add('hide'); // Garante que o botão esteja escondido se o texto for curto
+            // Se o texto for curto, remova o gradiente para não ter um "fade" desnecessário
+            descriptionShort.classList.add('expanded'); // Adiciona a classe para remover o ::after
+        }
+
+        readMoreBtn.addEventListener('click', () => {
+            descriptionShort.classList.toggle('expanded'); // Alterna a classe 'expanded'
+
+            if (descriptionShort.classList.contains('expanded')) {
+                readMoreBtn.textContent = 'Ver menos...'; // Muda o texto do botão
+                // Opcional: Rola para o topo do card quando o texto é expandido
+                // card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                readMoreBtn.textContent = 'Ver mais...'; // Volta o texto do botão
+                // Opcional: Rola para o topo do card quando o texto é recolhido
+                // card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
 });
 
 

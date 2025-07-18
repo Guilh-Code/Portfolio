@@ -495,7 +495,7 @@ a:hover {
 
 .project-card {
     background-color: var(--white);
-    padding: 30px;
+    padding: 0; /* Remove todo o padding do card para a imagem ocupar 100% da largura */
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
     text-align: center;
@@ -505,6 +505,74 @@ a:hover {
 .project-card:hover {
     transform: translateY(-5px);
 }
+
+.project-card .project-image {
+    width: 100%;
+    height: 200px; /* Ajuste esta altura conforme sua preferência */
+    object-fit: cover;
+    border-radius: 8px 8px 0 0; /* Arredonda só os cantos superiores da imagem */
+    display: block;
+}
+
+/* Estilos para o conteúdo textual dentro do card */
+.project-card .project-content {
+    padding: 20px; /* Padding para todos os lados do conteúdo de texto */
+    padding-top: 15px; /* Ajuste o padding-top para o espaço entre a imagem e o título */
+}
+
+/* Ajustes para o h3 dentro do .project-content para evitar conflitos */
+.project-card .project-content h3 {
+    margin-top: 0; /* Remove a margem superior padrão do h3, já que o padding-top está no contêiner */
+    margin-bottom: 15px; /* Mantém sua margem inferior desejada */
+}
+
+/* Ajustes para o p dentro do .project-content */
+.project-card .project-content p {
+    margin-bottom: 20px; /* Mantém sua margem inferior desejada */
+}
+
+
+/* NOVO: Estilos para a descrição curta e o botão "Ver mais..." */
+.project-card .description-short {
+    max-height: 100px; /* Ajuste esta altura! 100px pode mostrar 3-4 linhas dependendo do font-size */
+    overflow: hidden; /* Corta o conteúdo que excede a altura máxima */
+    position: relative; /* Necessário para o efeito de "fade" se quisermos um */
+    margin-bottom: 10px; /* Espaço entre a descrição e o botão/link */
+}
+
+/* Opcional: Adicionar um gradiente para o efeito "fade out" no final da descrição */
+.project-card .description-short::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px; /* Altura do gradiente */
+    background: linear-gradient(to top, var(--white) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none; /* Permite clicar no texto por trás */
+}
+
+/* Estilo para o botão "Ver mais..." */
+.read-more-btn {
+    /* Pode usar .btn-tertiary ou criar um estilo específico para ele */
+    margin-top: 10px; /* Espaço acima do botão */
+    margin-bottom: 10px; /* Espaço abaixo do botão para separar do botão "Ver Projeto" */
+}
+
+.hide {
+    display: none !important; /* Usamos !important para garantir que ele esconde */
+}
+
+/* Quando o texto estiver expandido */
+.project-card .description-short.expanded {
+    max-height: none; /* Remove a altura máxima para mostrar tudo */
+}
+
+/* Remover o gradiente quando expandido */
+.project-card .description-short.expanded::after {
+    display: none;
+}
+
 
 /* Seção Certificações */
 .certifications-carousel-container {
